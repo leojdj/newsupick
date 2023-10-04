@@ -1,2 +1,3 @@
-# newsupick
-A simple App that downloads news and saves favourite ones for later browsing. 
+Group 1
+
+- Leonardo Antezana
