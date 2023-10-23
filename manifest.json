@@ -5,30 +5,30 @@
     "start_url": "/",
     "id": "/",
     "display": "standalone",
-    "theme_color": "",
-    "background_color": "",
+    "theme_color": "#324376",
+    "background_color": "#90e0ef",
     "orientation": "any",
     "icons": [
       {
-        "src": "",
+        "src": "icons/newsupick_192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "",
+        "src": "icons/newsupick_192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "maskable"
       },
       {
-        "src": "",
+        "src": "icons/newsupick_512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "",
+        "src": "icons/newsupick_512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"

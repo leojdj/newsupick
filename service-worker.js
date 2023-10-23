@@ -27,7 +27,10 @@ self.addEventListener('install', (event) => {
                     '/index.html',
                     '/offline.html',
                     '/manifest.json',                        
-                    '/js/scripts.js',                        
+                    '/js/scripts.js',
+                    '/icons/newsupick_192.png',
+                    '/icons/newsupick_512.png',
+                    '/images/no_image_available.png'
                 ]);
             })
             .catch( (error) => {
