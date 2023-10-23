@@ -26,9 +26,83 @@
     <!-- Link the Web App Manifest. This file provides details for the proper PWA behavior. -->
     <link rel="manifest" href="/manifest.json">
 
+    <!-- Apple meta tags and link tags to make it PWA ready. -->
+    <link rel="apple-touch-icon" href="/icons/newsupick_192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="NewsUPick">
+    <meta name="theme-color" content="#324376">
+
+    <!-- Favorite Icon. -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/newsupick_192.png">
+
+    <!-- Linking to the CSS file -->
+    <link rel="stylesheet" href="/css/styles.css">  
+
+    <!-- Google Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
 </head>
 
 <body>
+
+    <div class="container">
+
+        <header>
+            <div id="logo-wrapper">
+                <img id="logo-image" src="/icons/newsupick_512.png" alt="Logo image for NewsUPick App.">                  
+            </div>
+
+            <nav id="menu-container">
+                <div class="menu-option-wrapper">
+                    <a href="/">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="menu-option-text">Home</span>
+                    </a>
+                </div>
+                <div class="menu-option-wrapper">
+                    <a href="/">
+                        <span class="material-symbols-outlined">favorite</span>
+                        <span class="menu-option-text">Favourites</span>
+                    </a>
+                </div>
+                <div class="menu-option-wrapper">
+                    <a href="/">
+                        <span class="material-symbols-outlined">info</span>
+                        <span class="menu-option-text">About</span>
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+
+            <div id="dailynews-container">
+
+                <div id="dailynews-pagenumber-container">
+                    <!-- Paging data will get dynamically added here. -->
+                </div>
+
+                <div id="section-title-wrapper">
+                    <h1 class="section-title">List Of Favourites</h1>
+                </div>
+
+                <div id="dailynews-page-container">
+                    <!-- News data will get dynamically added here. -->                    
+                </div>                
+
+                <div id="dailynews-bottom-container">
+                    <!-- User messages go here. -->
+                </div>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>&copy; Copyright 2023. All rights reserved.</p>
+        </footer>
+
+    </div>
 
     <script src="/js/scripts.js" type="module"></script>
 </body>

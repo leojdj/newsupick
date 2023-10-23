@@ -1,0 +1,251 @@
+
+/*
+    Course:     INFO6134 (Capstone Project)
+    Term:       F23
+    Professor:  Murilo Trigo
+    Author:     Leonardo Antezana
+    Notes:      This application uses some of the code and patterns learned in different classes.
+ */
+
+ /* FOR THE MATERIAL ICONS */
+.material-symbols-outlined {    
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+}
+
+/* PAGE STRUCTURE */
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+:root {
+  
+    /* Main Colours */
+    --primary-colour: #324376;
+    --secondary-colour: #90e0ef;
+    --third-colour: #BEE9E8;
+  
+    --page-number: #CAE9FF;
+    --page-favourite: #FF0000;
+
+    --black: #000;
+    --white: #fff;
+  
+    --user-message: #C0C0C0;
+  
+    font-size: 16px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* MENU & HEADER */
+
+header {
+    display: flex;
+    align-items: center;  
+    justify-content: space-between;
+  
+    background-color: var(--primary-colour);  
+}
+  
+#logo-image {
+    flex: 1;
+    width: 4rem;
+    margin: 0.2rem 0.5rem 0;
+}
+  
+#menu-container {
+    display: flex;
+    flex: auto;
+    justify-content: space-evenly;  
+}
+  
+#menu-container .menu-option-wrapper a {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+  
+    text-decoration: none;
+    color: var(--white);
+}
+  
+#menu-container .menu-option-wrapper .menu-option-text {
+    margin-top: 7px;
+    font-size: small;
+    text-transform: uppercase;
+}
+
+  /* MAIN & CONTENT */
+
+main {  
+
+    flex: 1;
+    position: relative;
+}
+  
+main #dailynews-container {
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+  
+main #dailynews-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+}
+  
+#dailynews-page-container img {
+    width: 100%;
+    aspect-ratio: 2 / 1;  
+}
+  
+#dailynews-pagenumber-container {  
+    display: flex;  
+    justify-content: center;
+  
+    background-color: var(--secondary-colour);
+  
+    margin-top: 15px;
+    margin-left: 50px;
+    margin-right: 50px;  
+}
+  
+#dailynews-pagenumber-container .dailynews-pagenumber {
+    margin: 0.2rem 0.25rem 0.2rem;
+    padding: 0 10px 0;
+  
+    border: 1px solid var(--page-number);
+    background-color: var(--page-number);
+}
+  
+#dailynews-pagenumber-container .dailynews-pageactive {
+    border: 1px solid #000;
+    background-color: var(--white);
+}
+  
+#dailynews-page-container {
+    margin: 15px;
+    padding: 10px;
+    background-color: var(--third-colour);
+}
+  
+#dailynews-page-container h3 {
+    margin: 7px 0 7px;
+}
+  
+#dailynews-page-container .dailynews-page-section {
+    margin: 5px 0 5px;
+    font-weight: bold;
+}
+  
+#dailynews-page-container span, #dailynews-page-container p {
+    font-weight: normal;
+}
+  
+#dailynews-page-container .dailynews-page-isfavourite {
+    font-size: smaller;
+    font-weight: bold;
+    text-transform: uppercase;
+  
+    color: var(--page-favourite);
+}
+  
+#dailynews-page-nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 30px;
+    text-align: center;
+}
+  
+#dailynews-page-nav-container button {    
+    margin: 0 0.5rem 0;
+    padding: 7px;
+    width: 4rem;
+  
+    border-radius: 25px;  
+}
+  
+#dailynews-page-nav-container p {
+    margin-top: 5px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;  
+}
+
+/* SECTION OPTIONS */
+#section-title-wrapper { 
+    margin: auto;
+    width: 80%;
+    background-color: var(--secondary-colour);
+    color: var(--black);
+  
+    margin-top: 1rem;
+  
+    padding: 0.25rem;
+  
+    text-align: center;
+}
+
+/* TODO: offline message, user message*/
+
+/* FOOTER */
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  
+    padding: 0.75rem 0;
+  
+    background-color: var(--primary-colour);
+    color: rgba(255, 255, 255, 0.8); 
+  
+    text-align: center;  
+    font-size: 0.75rem;
+}
+
+/* RESPONSIVE BEHAVIOUR */
+
+@media only screen and (min-width: 800px) {
+    .container {
+        flex-direction: row;
+        padding-bottom: 2.5rem;
+        box-sizing: border-box;
+    }
+  
+    header {    
+      flex-direction: column;    
+    }
+  
+    #menu-container {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  
+    #dailynews-pagenumber-container, #dailynews-page-container, #dailynews-page-nav-container, #dailynews-bottom-container {    
+      width: 80%;
+    }  
+}
+  
+@media only screen and (min-width: 1000px) {
+    #dailynews-pagenumber-container, #dailynews-page-container, #dailynews-page-nav-container, #dailynews-bottom-container {    
+      width: 60%;
+    }  
+}
