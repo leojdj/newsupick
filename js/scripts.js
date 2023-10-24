@@ -12,51 +12,97 @@ import NewsPaging from "./NewsPaging.js";
 
 import { API_KEY } from "../secrets/config.js";
 
+/**
+ * Data fetching from API
+ */
+
+const IS_ON_MANUAL_FETCH = true;
+
+// Returns true if the device's connection qualifies as good.
+export function isGoodConnection() {    
+    const acceptedSpeeds = ['2g', '3g', '4g'];
+
+    // Check that the Connection feature exists in Device/Browser
+    if ('connection' in navigator) {
+        const NetworkInformation = navigator.connection;
+        if ((NetworkInformation.downlink >= 1) 
+            && (acceptedSpeeds.includes(NetworkInformation.effectiveType))) {            
+                return true;
+        }
+    }
+    return false;
+}
+
+// Toggle the state of the Manual News Fetch icon. Right most on the nav for News items.
+export function setFetchButtonState(manual) {
+    let buttonManualFetch = document.getElementById("dailynews-page-button-manual");
+    let buttonIcon = document.getElementById("dailynews-page-button-auto-icon");
+    let text = document.getElementById("dailynews-page-button-auto-text");
+    if (manual) {
+        buttonIcon.innerText = "download";
+        text.innerText = "GET NEWS"
+    } else {
+        buttonIcon.innerText = "autorenew";
+        text.innerText = "AUTO"
+    }
+    buttonManualFetch.disabled = !manual;
+}
+
+// Present a message to the user when needed. Below the nav buttons for News items.
+export function userMessage(title, message) {
+    let messageContainer = document.getElementById("dailynews-bottom-container");
+    if (message.length > 0) {
+        messageContainer.innerHTML = `
+            <div class='user-message'>
+                <h3>${title}</h3>
+                <p>${message}.</p>
+            </div>
+        `
+    } else {
+        messageContainer.innerHTML = "";
+    }
+}
+
+// Support function for clarity of purpose.
+export function clearUserMessage() {
+    userMessage("", "");
+}
+
+// ENTRY POINT INTO THE APP
+// Check that the device is online
+if (navigator.onLine) {
+    if (isGoodConnection()) {
+        console.log("automatic: fetching data from news io");                    
+        fetchNews(); 
+    } else {
+        setFetchButtonState(IS_ON_MANUAL_FETCH);
+        userMessage("Manual Fetch: Active", "Connection is slow. Please click on the (GET NEWS) button");
+    }
+} else {
+    userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later");
+    disableNewsNavButtons();
+}
+
+// Get News from News API.
+function fetchNews() {
+    let targetUrl = 'http://10.0.2.2:3001/querynews/'
+
+    fetch(targetUrl)
+        .then( response => response.json() )
+        .then( json => { 
+            jsonToArray(json.articles);            
+        });
+}
+
+
+/* END Data Fetching */
+
+
 /* IN-MEMORY DATA OBJECTS */
 
 var newsArray = [];
 
 var trackPages = null;
-
-/* MOCK DATA & CALLS SECTION: Trigger the visualization feature */
-
-let article1 = {
-      source: {
-        id: "",
-        name: "Cormier, Sanford and Kautzer"
-      },
-      author: "Ila Nader",
-      title: "Omnis iusto consequatur quae qui iure impedit provident nobis.",
-      description: "Doloribus quidem quis exercitationem quasi culpa corporis.",
-      url: "",
-      urlToImage: "https://cataas.com/cat",
-      publishedAt: "2023-10-22T23:41:10Z",
-      content: "Quasi consectetur blanditiis nostrum saepe voluptatibus."
-}
-
-let article2 = {
-      source: {
-        id: "",
-        name: "Schimmel LLC"
-      },
-      author: "Jenifer Powlowski",
-      title: "Velit laborum dolorem magni.",
-      description: "Perferendis rem explicabo reprehenderit quidem.",
-      url: "",
-      urlToImage: "https://cataas.com/cat",
-      publishedAt: "2023-10-22T23:41:10Z",
-      content: "Iure non culpa laboriosam nesciunt alias."
-}
-
-newsArray.push(article1);
-newsArray.push(article2);
-newsArray.push(article1);
-newsArray.push(article2);
-newsArray.push(article1);
-
-jsonToArray(newsArray);
-
-/* MOCK DATA & CALLS SECTION */
 
 // Pass the articles data to memory array structure (whether from Fetch or Database).
 function jsonToArray(jsonObjectList) {
