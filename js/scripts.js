@@ -48,6 +48,9 @@ let article2 = {
 
 newsArray.push(article1);
 newsArray.push(article2);
+newsArray.push(article1);
+newsArray.push(article2);
+newsArray.push(article1);
 
 jsonToArray(newsArray);
 
