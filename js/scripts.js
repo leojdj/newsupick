@@ -10,6 +10,8 @@
 import News from "./News.js";
 import NewsPaging from "./NewsPaging.js";
 
+import { API_KEY } from "../secrets/config.js";
+
 /* IN-MEMORY DATA OBJECTS */
 
 var newsArray = [];
