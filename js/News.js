@@ -20,10 +20,21 @@ export default class News {
         this.content = content;
         this.favourite = false;
         this.id = 0;
+        this.fetchDate = this.fetchDateParse()
+    }
+
+    fetchDateParse() {
+        let date = new Date().toISOString()
+        date = date.substring(0, date.indexOf(".")) + "Z"
+        return date
     }
 
     getReleaseDate() {
         return this.getReleaseDate;
+    }
+
+    getFetchDate() {
+        return this.fetchDate;
     }
 
     toggleFavourite() {
@@ -42,7 +53,8 @@ export default class News {
             author: this.author,
             publishedAt: this.publishedAt,
             content: this.content,
-            favourite: this.favourite
+            favourite: this.favourite,
+            fetchDate: this.fetchDate
         }
     }   
     
@@ -109,36 +121,11 @@ export default class News {
         `;
         newDiv.innerHTML = htmlText;
         return (newDiv);        
-    }
-
-    // Initializes an object used as state holder in the DB.
-    static getTodayPlaceholderObj() {
-        return new News("", "Today Placeholder", "", "", new Date().toDateString(), "");
-    }
+    }    
 
     // Support function for the functionality of the Favourite button.
     static displayNewsEmpty() {
         var newsContainer = document.getElementById("dailynews-page-container");
         newsContainer.innerHTML = "";
-    }
-
-    // Needed to ensure the comparison logic, since the Placeholder didn't always get added to first place.
-    static hasPlaceholder(articlesList) {
-        for (let article of articlesList) {
-            if (article.title.localeCompare("Today Placeholder") == 0) {
-                return article;
-            }
-        }
-        return null;
-    }
-
-    // Needed after other updates to handle Placeholder logic.
-    static getPlaceholderIndex(articlesList) {
-        for (const [index, article] of articlesList.entries()) {
-            if (article.title.localeCompare("Today Placeholder") == 0) {
-                return index;
-            }
-        }
-        return -1;
     }
 }

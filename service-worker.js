@@ -28,6 +28,10 @@ self.addEventListener('install', (event) => {
                     '/offline.html',
                     '/manifest.json',                        
                     '/js/scripts.js',
+                    '/js/utilities.js',
+                    './js/News.js',
+                    './js/NewsPaging.js',
+                    './js/databases/db-local.js',
                     '/icons/newsupick_192.png',
                     '/icons/newsupick_512.png',
                     '/images/no_image_available.png'

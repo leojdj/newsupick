@@ -10,90 +10,95 @@
 import News from "./News.js";
 import NewsPaging from "./NewsPaging.js";
 
+import NewsDB from "./databases/db-local.js";
+
+import { isGoodConnection, userMessage, clearUserMessage } from "./utilities.js"; 
 import { API_KEY } from "../secrets/config.js";
 
-/**
- * Data fetching from API
- */
+// DATABASE
+/* Create the Cache and the My List databases */
+let cacheDB = new NewsDB("NewsCache")
+let newsDB = new NewsDB("NewsList")
 
-const IS_ON_MANUAL_FETCH = true;
+let cacheResults = []
 
-// Returns true if the device's connection qualifies as good.
-export function isGoodConnection() {    
-    const acceptedSpeeds = ['2g', '3g', '4g'];
+// ENTRY POINT INTO THE APP/Main Page
+cacheDB.open()
+    .then( async () => {
+        console.log("[DB]: Fetching data.")
+        // Get Cache database data if any exists.
+        cacheResults = await cacheDB.getAll()
+        
+        // Transfer Cache data to internal News object list.
+        jsonToArray(cacheResults, false)
 
-    // Check that the Connection feature exists in Device/Browser
-    if ('connection' in navigator) {
-        const NetworkInformation = navigator.connection;
-        if ((NetworkInformation.downlink >= 1) 
-            && (acceptedSpeeds.includes(NetworkInformation.effectiveType))) {            
-                return true;
+        handleDbOrFetch()        
+    })
+    .catch( (e) => {
+        console.log("[DB]: Issue opening the local database.", e)
+    });
+
+// Parse YYYY-MM-DDTHH:MM:SSZ to just the date portion
+function parseDate(dateISO) {
+    return dateISO.substring(0, dateISO.indexOf("T"))}
+
+function cacheIsStale(cache) {
+    let today =  new Date().toISOString()
+    today = parseDate(today)   
+
+    for (let article of cache) {        
+        if (today.localeCompare(parseDate(article.getFetchDate())) == 0) {
+            return false
         }
     }
-    return false;
+    return true
 }
 
-// Toggle the state of the Manual News Fetch icon. Right most on the nav for News items.
-export function setFetchButtonState(manual) {
-    let buttonManualFetch = document.getElementById("dailynews-page-button-manual");
-    let buttonIcon = document.getElementById("dailynews-page-button-auto-icon");
-    let text = document.getElementById("dailynews-page-button-auto-text");
-    if (manual) {
-        buttonIcon.innerText = "download";
-        text.innerText = "GET NEWS"
+// DATABASE
+
+// Check if the Cache data is still valid. Or proceed to check if device is online to download.
+function handleDbOrFetch() {    
+    if(cacheIsStale(newsArray)) {
+        if (navigator.onLine) {
+            if (isGoodConnection()) {
+                console.log("Data Source: News IO.");                    
+                fetchNews();
+            } else {                
+                userMessage("Slow Connection", "Please click on the (FETCH) button.");
+            }
+        } else {
+            userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later.");
+            toggleNewsNavButtons();
+        }
     } else {
-        buttonIcon.innerText = "autorenew";
-        text.innerText = "AUTO"
-    }
-    buttonManualFetch.disabled = !manual;
-}
-
-// Present a message to the user when needed. Below the nav buttons for News items.
-export function userMessage(title, message) {
-    let messageContainer = document.getElementById("dailynews-bottom-container");
-    if (message.length > 0) {
-        messageContainer.innerHTML = `
-            <div class='user-message'>
-                <h3>${title}</h3>
-                <p>${message}.</p>
-            </div>
-        `
-    } else {
-        messageContainer.innerHTML = "";
-    }
-}
-
-// Support function for clarity of purpose.
-export function clearUserMessage() {
-    userMessage("", "");
-}
-
-// ENTRY POINT INTO THE APP
-// Check that the device is online
-if (navigator.onLine) {
-    if (isGoodConnection()) {
-        console.log("automatic: fetching data from news io");                    
-        fetchNews(); 
-    } else {
-        setFetchButtonState(IS_ON_MANUAL_FETCH);
-        userMessage("Manual Fetch: Active", "Connection is slow. Please click on the (GET NEWS) button");
-    }
-} else {
-    userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later");
-    disableNewsNavButtons();
+        console.log("Data Source: Cache database.")
+        initDisplay()
+    }    
 }
 
 // Get News from News API.
 function fetchNews() {
-    let targetUrl = 'http://10.0.2.2:3001/querynews/'
+    let targetUrl = 'http://127.0.0.1:3001/querynews/'
 
     fetch(targetUrl)
         .then( response => response.json() )
-        .then( json => { 
-            jsonToArray(json.articles);            
+        .then( async json => { 
+            jsonToArray(json.articles);
+            initDisplay()            
+            
+            try {
+                await cacheDB.clear();
+
+                // Add all fetched News to the Cache database. Clears any current stale data first.
+                for (let article of newsArray) {                                      
+                    let articleId = await cacheDB.add(article)                        
+                    article.setId(articleId)                    
+                }
+            } catch(e) {
+                console.log('[DB]: Error saving data to local database.')
+            }
         });
 }
-
 
 /* END Data Fetching */
 
@@ -105,16 +110,9 @@ var newsArray = [];
 var trackPages = null;
 
 // Pass the articles data to memory array structure (whether from Fetch or Database).
-function jsonToArray(jsonObjectList) {
+function jsonToArray(jsonObjectList, isFetch = true) {
     let articles = jsonObjectList;
-    let isFetch = true;
     newsArray = [];
-
-    // Extra filtering to generalize the function to handle fetched data from the API or from the database.    
-    if (News.hasPlaceholder(articles)) {
-        isFetch = false;
-        articles.splice(News.getPlaceholderIndex(articles), 1); // The Today's Placeholder from DB is not needed. Remove from articles array.
-    }    
 
     for (let article of articles) {        
         let sourceName = isFetch? article.source.name: article.sourceName;        
@@ -133,14 +131,16 @@ function jsonToArray(jsonObjectList) {
             newsArray[newsArray.length-1].setId(article.id);
             newsArray[newsArray.length-1].setFavourite(article.favourite);
         }
-    }    
-    
-    initDisplay();
+    }
 }
 
 // Display initialization function. (Needed because of the promise nature of fetch).
-function initDisplay() {
+function initDisplay() {    
     if(newsArray.length > 0) {
+        if (buttonPrev.disabled) {
+            toggleNewsNavButtons()
+        }
+
         // Init the page numbers at the top.
         trackPages = new NewsPaging(newsArray.length);
 
@@ -152,15 +152,15 @@ function initDisplay() {
     } else {
        News.displayNewsEmpty();
        NewsPaging.displayPageNumbersEmpty();
-       disableNewsNavButtons();
+       toggleNewsNavButtons();
    }
 }
 
 // Support function to reduce code repetition.
-function disableNewsNavButtons() {
-    buttonPrev.disabled = true;
-    buttonFav.disabled = true;
-    buttonNext.disabled = true;
+function toggleNewsNavButtons() {
+    buttonPrev.disabled = !buttonPrev.disabled;
+    buttonFav.disabled = !buttonFav.disabled;
+    buttonNext.disabled = !buttonNext.disabled;    
 }
 
 // Listeners and support functions for the News Navigation Buttons.
@@ -175,10 +175,9 @@ let buttonNext = document.getElementById("dailynews-page-button-next");
 buttonNext.addEventListener('click', () => { nextPage(trackPages)} );
 
 let buttonGetNews = document.getElementById("dailynews-page-button-manual");
-buttonGetNews.addEventListener('click', () => { 
+buttonGetNews.addEventListener('click', () => {     
     fetchNews(); 
     clearUserMessage();
-    buttonGetNews.disabled = IS_ON_MANUAL_FETCH;
  });
 
 function previousPage(newsPaging) {
@@ -193,6 +192,33 @@ function nextPage(newsPaging) {
     }
 }
 
+function favouriteToggle(newsPaging) {
+    newsArray[newsPaging.getActive()].toggleFavourite();
+    newsArray[newsPaging.getActive()].displayNews();
+
+    // A Favourite News is saved to the MyNews database. Otherwise it will be lost with the next News fetch.
+    // Gets deleted from Cache DB and memory Array.
+          
+    newsDB.open()
+        .then( async () => {
+            console.log("[DB] Open: Success");
+            
+            await newsDB.add(newsArray[newsPaging.getActive()])
+                
+            userMessage("Saving Favourite", "It will be removed from the Today's Cache");                
+                    
+            let deleteId = newsArray[newsPaging.getActive()].getId();                
+                    
+            await cacheDB.delete(deleteId)
+            newsArray.splice(newsPaging.getActive(), 1);
+            setTimeout( () => { 
+                clearUserMessage();
+                initDisplay(); }, 0);
+        })
+        .catch( (error) => {
+            console.log("[DB] Open: Error", error);
+    });
+}
     
 // ----- SERVICE WORKER: Registration ----
 // Enabled as a module to allow for imports.
