@@ -12,7 +12,7 @@ import NewsPaging from "./NewsPaging.js";
 
 import NewsDB from "./databases/db-local.js";
 
-import { isGoodConnection, userMessage, clearUserMessage } from "./utilities.js"; 
+import { isGoodConnection, userMessage, clearUserMessage, jsonToArray, cacheIsStale } from "./utilities.js"; 
 import { API_KEY } from "../secrets/config.js";
 
 // DATABASE
@@ -20,41 +20,24 @@ import { API_KEY } from "../secrets/config.js";
 let cacheDB = new NewsDB("NewsCache")
 let newsDB = new NewsDB("NewsList")
 
-let cacheResults = []
+// Holds the in-memory list of Articles (with source database or response from fetch)) 
+let newsArray = []
 
 // ENTRY POINT INTO THE APP/Main Page
 cacheDB.open()
     .then( async () => {
         console.log("[DB]: Fetching data.")
         // Get Cache database data if any exists.
-        cacheResults = await cacheDB.getAll()
+        let cacheResults = await cacheDB.getAll()
         
         // Transfer Cache data to internal News object list.
-        jsonToArray(cacheResults, false)
+        newsArray = jsonToArray(cacheResults, false)
 
         handleDbOrFetch()        
     })
     .catch( (e) => {
         console.log("[DB]: Issue opening the local database.", e)
     });
-
-// Parse YYYY-MM-DDTHH:MM:SSZ to just the date portion
-function parseDate(dateISO) {
-    return dateISO.substring(0, dateISO.indexOf("T"))}
-
-function cacheIsStale(cache) {
-    let today =  new Date().toISOString()
-    today = parseDate(today)   
-
-    for (let article of cache) {        
-        if (today.localeCompare(parseDate(article.getFetchDate())) == 0) {
-            return false
-        }
-    }
-    return true
-}
-
-// DATABASE
 
 // Check if the Cache data is still valid. Or proceed to check if device is online to download.
 function handleDbOrFetch() {    
@@ -64,10 +47,10 @@ function handleDbOrFetch() {
                 console.log("Data Source: News IO.");                    
                 fetchNews();
             } else {                
-                userMessage("Slow Connection", "Please click on the (FETCH) button.");
+                userMessage("Slow Connection", "Please click on the (FETCH) button");
             }
         } else {
-            userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later.");
+            userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later");
             toggleNewsNavButtons();
         }
     } else {
@@ -79,11 +62,12 @@ function handleDbOrFetch() {
 // Get News from News API.
 function fetchNews() {
     let targetUrl = 'http://127.0.0.1:3001/querynews/'
+    //let targetUrl = 'http://10.0.2.2:3001/querynews/'
 
     fetch(targetUrl)
         .then( response => response.json() )
         .then( async json => { 
-            jsonToArray(json.articles);
+            newsArray = jsonToArray(json.articles);
             initDisplay()            
             
             try {
@@ -102,37 +86,7 @@ function fetchNews() {
 
 /* END Data Fetching */
 
-
-/* IN-MEMORY DATA OBJECTS */
-
-var newsArray = [];
-
 var trackPages = null;
-
-// Pass the articles data to memory array structure (whether from Fetch or Database).
-function jsonToArray(jsonObjectList, isFetch = true) {
-    let articles = jsonObjectList;
-    newsArray = [];
-
-    for (let article of articles) {        
-        let sourceName = isFetch? article.source.name: article.sourceName;        
-
-        newsArray.push(new News(
-            article.urlToImage,
-            article.title,
-            sourceName,
-            article.author,
-            article.publishedAt,
-            article.content
-        ));      
-
-        // When fetched from API default values work for id and favourite. Need to reasign them when from database.
-        if (!isFetch) {
-            newsArray[newsArray.length-1].setId(article.id);
-            newsArray[newsArray.length-1].setFavourite(article.favourite);
-        }
-    }
-}
 
 // Display initialization function. (Needed because of the promise nature of fetch).
 function initDisplay() {    
@@ -175,7 +129,12 @@ let buttonNext = document.getElementById("dailynews-page-button-next");
 buttonNext.addEventListener('click', () => { nextPage(trackPages)} );
 
 let buttonGetNews = document.getElementById("dailynews-page-button-manual");
-buttonGetNews.addEventListener('click', () => {     
+buttonGetNews.addEventListener('click', () => {    
+    if (newsArray.length > 0) {
+        if (!confirm("ATTENTION!: Today's News will be refreshed.\nDo you want to Continue?")) {
+            return
+        }
+    }    
     fetchNews(); 
     clearUserMessage();
  });

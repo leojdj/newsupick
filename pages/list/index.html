@@ -12,7 +12,7 @@
 <html lang="en-CA">
 
 <head>
-    <title>NewsUPick</title>
+    <title>List | NewsUPick</title>
 
     <!-- Page Details -->
     <meta charset="UTF-8">
@@ -37,7 +37,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icons/newsupick_192.png">
 
     <!-- Linking to the CSS file -->
-    <link rel="stylesheet" href="/css/styles.css">  
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="styles.css">  
 
     <!-- Google Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -81,38 +82,15 @@
 
                 <div id="dailynews-pagenumber-container">
                     <!-- Paging data will get dynamically added here. -->
-                </div>                
+                </div>
+
+                <div id="section-title-wrapper">
+                    <h1 class="section-title">List Of News</h1>
+                </div>
 
                 <div id="dailynews-page-container">
                     <!-- News data will get dynamically added here. -->                    
-                </div>
-                
-                <div id="dailynews-page-nav-container">
-                    <div>
-                        <button id="dailynews-page-button-previous">
-                            <span class="material-symbols-outlined">arrow_back</span>                        
-                        </button>
-                        <p>PREV</p>
-                    </div>
-                    <div>
-                        <button id="dailynews-page-button-fav">
-                            <span class="material-symbols-outlined">star</span>
-                        </button>
-                        <p>FAV</p>
-                    </div>
-                    <div>
-                        <button id="dailynews-page-button-next">
-                            <span class="material-symbols-outlined">arrow_forward</span>                        
-                        </button>
-                        <p>NEXT</p>
-                    </div>
-                    <div>
-                        <button id="dailynews-page-button-manual">
-                            <span id="dailynews-page-button-auto-icon" class="material-symbols-outlined">autorenew</span>
-                        </button>
-                        <p id="dailynews-page-button-auto-text">FETCH</p>
-                    </div>
-                </div>
+                </div>                
 
                 <div id="dailynews-bottom-container">
                     <!-- User messages go here. -->
@@ -127,7 +105,7 @@
 
     </div>
 
-    <script src="/js/scripts.js" type="module"></script>
+    <script src="scripts.js" type="module"></script>
 </body>
 
 </html>

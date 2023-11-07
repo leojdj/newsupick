@@ -1,0 +1,52 @@
+
+/*
+    Course:     INFO6134 (Capstone Project)
+    Term:       F23
+    Professor:  Murilo Trigo
+    Author:     Leonardo Antezana
+    Notes:      This application uses some of the code and patterns learned in different classes.
+*/
+
+main #dailynews-page-container {
+    background-color: #5fa8d3;
+}
+
+main .news-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    border-radius: 7px;
+    margin: 10px 0;
+    padding: 7px;
+    background-color: var(--third-colour);
+}
+
+main .news-item-container .news-item-object {
+    display: flex;
+    flex-direction: column;
+}
+
+main .news-item-container .news-item-object .news-item-label-container {
+    display: flex;
+    flex: row;    
+}
+
+main .news-item-container .news-item-object .news-item-label {
+    margin-right: 5px;
+    font-size: medium;
+    font-weight: bold;
+}
+
+main .news-item-container .news-item-object .news-item-label span {
+    font-size: medium;
+    font-weight: normal;
+}
+
+main .news-item-container .news-item-object .news-item-label .news-item-date {
+    font-size: small;
+}
+
+main .news-item-container .news-item-icon {
+    color: var(--user-message);
+}

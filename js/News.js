@@ -37,6 +37,10 @@ export default class News {
         return this.fetchDate;
     }
 
+    setFetchDate(fetchDate) {
+        this.fetchDate = fetchDate;
+    }
+
     toggleFavourite() {
         this.favourite = !this.favourite;        
     }
