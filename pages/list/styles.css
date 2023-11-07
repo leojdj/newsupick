@@ -8,7 +8,7 @@
 */
 
 main #dailynews-page-container {
-    background-color: #5fa8d3;
+    background-color: #5fa8d3;    
 }
 
 main .news-item-container {
@@ -48,5 +48,5 @@ main .news-item-container .news-item-object .news-item-label .news-item-date {
 }
 
 main .news-item-container .news-item-icon {
-    color: var(--user-message);
+    color: var(--page-favourite);
 }

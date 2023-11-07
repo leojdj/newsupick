@@ -10,7 +10,9 @@
 import { jsonToArray, userMessage } from "./../../js/utilities.js";
 import NewsDB from "./../../js/databases/db-local.js";
 
-let newsDB = new NewsDB("NewsList")
+import { NEWSLISTDB_NAME } from "./../../js/databases/db-local.js";
+
+let newsDB = new NewsDB(NEWSLISTDB_NAME)
 
 var newsArray = [];
 

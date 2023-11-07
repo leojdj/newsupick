@@ -7,17 +7,21 @@
     Notes:      This application uses some of the code and patterns learned in different classes.
 */
 
+import DeleteListItem from "./DeleteListItem.js";
+
 // A class to handle all internal data management of a News instance.
 // Only "favourite" is a parameter that will be updated.
 
 export default class News {
+    NO_DATA = "No Data";
+
     constructor(urlToImage, title, sourceName, author, publishedAt, content) {
         this.urlToImage = urlToImage? urlToImage: "images/no_image_available.png";
-        this.title = title;
-        this.sourceName = sourceName;
-        this.author = author;
-        this.publishedAt = publishedAt;
-        this.content = content;
+        this.title = title? title: this.NO_DATA;
+        this.sourceName = sourceName? sourceName: this.NO_DATA;
+        this.author = author? author: this.NO_DATA;
+        this.publishedAt = publishedAt? publishedAt: this.NO_DATA;
+        this.content = content? content: this.NO_DATA;
         this.favourite = false;
         this.id = 0;
         this.fetchDate = this.fetchDateParse()
@@ -73,7 +77,7 @@ export default class News {
 
     getId() {
         return this.id;
-    }
+    }    
 
     // Directly displays the data into the received DIV element.
     displayNews() {     
@@ -119,11 +123,16 @@ export default class News {
                     </div>
                 </div>
             </div>
-            <div class="news-item-icon">
-                <span class="material-symbols-outlined">delete</span>
-            </div>                
         `;
+
+        // Create the DIV with the icon and the function callback to delete the corresponding News item by its id.
+        let deleteDiv = document.createElement('div')
+        deleteDiv.className = "news-item-icon"
+        deleteDiv.onclick = () => { DeleteListItem.deleteItem(this.id) }
+        deleteDiv.innerHTML = '<span class="material-symbols-outlined">delete</span>'    
+
         newDiv.innerHTML = htmlText;
+        newDiv.append(deleteDiv);
         return (newDiv);        
     }    
 
@@ -131,5 +140,5 @@ export default class News {
     static displayNewsEmpty() {
         var newsContainer = document.getElementById("dailynews-page-container");
         newsContainer.innerHTML = "";
-    }
+    }    
 }

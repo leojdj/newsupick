@@ -12,13 +12,15 @@ import NewsPaging from "./NewsPaging.js";
 
 import NewsDB from "./databases/db-local.js";
 
+import { NEWSLISTDB_NAME, CACHEDB_NAME } from "./databases/db-local.js";
+
 import { isGoodConnection, userMessage, clearUserMessage, jsonToArray, cacheIsStale } from "./utilities.js"; 
 import { API_KEY } from "../secrets/config.js";
 
 // DATABASE
 /* Create the Cache and the My List databases */
-let cacheDB = new NewsDB("NewsCache")
-let newsDB = new NewsDB("NewsList")
+let cacheDB = new NewsDB(CACHEDB_NAME)
+let newsDB = new NewsDB(NEWSLISTDB_NAME)
 
 // Holds the in-memory list of Articles (with source database or response from fetch)) 
 let newsArray = []
@@ -62,7 +64,7 @@ function handleDbOrFetch() {
 // Get News from News API.
 function fetchNews() {
     let targetUrl = 'http://127.0.0.1:3001/querynews/'
-    //let targetUrl = 'http://10.0.2.2:3001/querynews/'
+    //let targetUrl = 'http://10.0.2.2:3001/querynews/'    
 
     fetch(targetUrl)
         .then( response => response.json() )
@@ -130,13 +132,17 @@ buttonNext.addEventListener('click', () => { nextPage(trackPages)} );
 
 let buttonGetNews = document.getElementById("dailynews-page-button-manual");
 buttonGetNews.addEventListener('click', () => {    
-    if (newsArray.length > 0) {
-        if (!confirm("ATTENTION!: Today's News will be refreshed.\nDo you want to Continue?")) {
-            return
+    if (navigator.onLine) {
+        if (newsArray.length > 0) {
+            if (!confirm("ATTENTION!: Today's News will be refreshed.\nDo you want to Continue?")) {
+                return
+            }
         }
-    }    
-    fetchNews(); 
-    clearUserMessage();
+        fetchNews();
+    } else {
+        userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later");
+    }     
+    setTimeout( () => { clearUserMessage(); }, 3000);    
  });
 
 function previousPage(newsPaging) {

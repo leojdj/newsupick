@@ -89,9 +89,10 @@ header {
   /* MAIN & CONTENT */
 
 main {  
-
     flex: 1;
     position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 0.75rem;
 }
   
 main #dailynews-container {

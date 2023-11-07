@@ -234,3 +234,7 @@ class NewsDB {
 
 // Exporting the Class.
 export default NewsDB;
+
+// Export default database names.
+export const CACHEDB_NAME = "NewsCache";
+export const NEWSLISTDB_NAME = "NewsList";

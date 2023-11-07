@@ -31,6 +31,7 @@ self.addEventListener('install', (event) => {
                     '/js/utilities.js',
                     '/js/News.js',
                     '/js/NewsPaging.js',
+                    '/js/DeleteListItem.js',
                     '/js/databases/db-local.js',
                     '/pages/list/index.html',
                     '/pages/list/scripts.js',
