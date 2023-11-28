@@ -65,7 +65,7 @@ function handleDbOrFetch() {
 function fetchNews() {
     //let targetUrl = 'http://127.0.0.1:3001/querynews/'
     //let targetUrl = 'http://10.0.2.2:3001/querynews/'    
-    let targetUrl = 'https://newsapi.org/v2/top-headlines?category=technology&pageSize=5&country=us&apiKey=30461be8c8b4448daa900b37ee34f2ff';
+    let targetUrl = 'https://newsapi.org/v2/top-headlines?category=technology&pageSize=5&country=us&apiKey=';
     
 
     fetch(targetUrl)
