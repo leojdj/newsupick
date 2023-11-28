@@ -36,6 +36,9 @@ self.addEventListener('install', (event) => {
                     '/pages/list/index.html',
                     '/pages/list/scripts.js',
                     '/pages/list/styles.css',
+                    '/pages/config/index.html',
+                    '/pages/config/scripts.js',
+                    '/pages/config/styles.css',
                     '/icons/newsupick_192.png',
                     '/icons/newsupick_512.png',
                     '/images/no_image_available.png'

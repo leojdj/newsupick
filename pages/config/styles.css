@@ -1,0 +1,37 @@
+
+/*
+    Course:     INFO6134 (Capstone Project)
+    Term:       F23
+    Professor:  Murilo Trigo
+    Author:     Leonardo Antezana
+    Notes:      This application uses some of the code and patterns learned in different classes.
+*/
+
+.aboutpage-row-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aboutpage-row-wrapper .aboutpage-button-wrapper {
+    margin: 10px 7px 10px;
+}
+
+.aboutpage-row-wrapper .aboutpage-deletedb-button {
+    background-color: var(--page-favourite);
+    color: var(--white);
+    padding: 5px;
+    border-radius: 7px;
+    border: 1px solid var(--black);
+    width: fit-content;
+}
+
+.aboutpage-row-wrapper .aboutpage-deletedb-button:hover {
+    background-color: orange;
+    color: var(--black);
+}
+
+.aboutpage-row-wrapper .aboutpage-text-cell {
+    padding-left: 7px;
+}
