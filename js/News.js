@@ -13,24 +13,40 @@ import DeleteListItem from "./DeleteListItem.js";
 // Only "favourite" is a parameter that will be updated.
 
 export default class News {
-    NO_DATA = "No Data";
+    NO_DATA = "No Data Available";
+    UNKNOWN = "Unknown";
 
     constructor(urlToImage, title, sourceName, author, publishedAt, content) {
         this.urlToImage = urlToImage? urlToImage: "images/no_image_available.png";
         this.title = title? title: this.NO_DATA;
-        this.sourceName = sourceName? sourceName: this.NO_DATA;
-        this.author = author? author: this.NO_DATA;
-        this.publishedAt = publishedAt? publishedAt: this.NO_DATA;
+        this.sourceName = sourceName? sourceName: this.UNKNOWN;
+        this.author = author? author: this.UNKNOWN;
+        this.publishedAt = publishedAt? this.fetchDateParse(publishedAt, "t"): this.UNKNOWN;
         this.content = content? content: this.NO_DATA;
         this.favourite = false;
         this.id = 0;
-        this.fetchDate = this.fetchDateParse()
+        this.fetchDate = this.fetchDateParse(new Date().toISOString())
     }
 
-    fetchDateParse() {
-        let date = new Date().toISOString()
-        date = date.substring(0, date.indexOf(".")) + "Z"
-        return date
+    // Removes the .999 milliseconds of a Date/Time or the Time from a Date
+    // filterType = ms, default, remove the milliseconds.
+    // date = date/time to parse.
+    fetchDateParse(date, filterType = "ms") {
+        // Date is already in needed format.
+        if (date.length == 10) {
+            return date;
+        }
+
+        let filterChar = ".";
+        let tailText = "Z";
+
+        if (filterType.localeCompare("ms") != 0) {
+            filterChar = "T";
+            tailText = "";
+        }       
+
+        date = date.substring(0, date.indexOf(filterChar)) + tailText;    
+        return date;
     }
 
     getReleaseDate() {
@@ -67,7 +83,7 @@ export default class News {
     }   
     
     getDate() {
-        return this.publishedAt.substring(0, 10);
+        return this.publishedAt;
     }
 
     // Required to delete from Local Db.

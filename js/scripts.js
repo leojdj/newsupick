@@ -63,8 +63,10 @@ function handleDbOrFetch() {
 
 // Get News from News API.
 function fetchNews() {
-    let targetUrl = 'http://127.0.0.1:3001/querynews/'
+    //let targetUrl = 'http://127.0.0.1:3001/querynews/'
     //let targetUrl = 'http://10.0.2.2:3001/querynews/'    
+    let targetUrl = 'https://newsapi.org/v2/top-headlines?category=technology&pageSize=5&country=us&apiKey=30461be8c8b4448daa900b37ee34f2ff';
+    
 
     fetch(targetUrl)
         .then( response => response.json() )
@@ -106,10 +108,12 @@ function initDisplay() {
         // Page number tracking, based on the number of news obtained "today".        
         trackPages.displayPageNumbers();
     } else {
-       News.displayNewsEmpty();
-       NewsPaging.displayPageNumbersEmpty();
-       toggleNewsNavButtons();
-   }
+        News.displayNewsEmpty();
+        NewsPaging.displayPageNumbersEmpty();
+        toggleNewsNavButtons();
+       
+        userMessage("For More News", "Click the FETCH Button");
+    }
 }
 
 // Support function to reduce code repetition.
@@ -141,8 +145,7 @@ buttonGetNews.addEventListener('click', () => {
         fetchNews();
     } else {
         userMessage("Device Is Offline", "Cannot fetch news at the moment, please try again later");
-    }     
-    setTimeout( () => { clearUserMessage(); }, 3000);    
+    }
  });
 
 function previousPage(newsPaging) {
@@ -168,9 +171,9 @@ function favouriteToggle(newsPaging) {
         .then( async () => {
             console.log("[DB] Open: Success");
             
-            await newsDB.add(newsArray[newsPaging.getActive()])
-                
-            userMessage("Saving Favourite", "It will be removed from the Today's Cache");                
+            userMessage("Saving News...", "It will be removed from the Today's Browser", false);
+
+            await newsDB.add(newsArray[newsPaging.getActive()]);
                     
             let deleteId = newsArray[newsPaging.getActive()].getId();                
                     
@@ -178,7 +181,7 @@ function favouriteToggle(newsPaging) {
             newsArray.splice(newsPaging.getActive(), 1);
             setTimeout( () => { 
                 clearUserMessage();
-                initDisplay(); }, 0);
+                initDisplay(); }, 3000);            
         })
         .catch( (error) => {
             console.log("[DB] Open: Error", error);

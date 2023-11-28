@@ -25,7 +25,7 @@ export function isGoodConnection() {
 }
 
 // Present a message to the user when needed. Below the nav buttons for News items.
-export function userMessage(title, message) {
+export function userMessage(title, message, timer = true) {
     let messageContainer = document.getElementById("dailynews-bottom-container");
     if (message.length > 0) {
         messageContainer.innerHTML = `
@@ -34,6 +34,9 @@ export function userMessage(title, message) {
                 <p>${message}.</p>
             </div>
         `
+        if (timer) {
+            setTimeout( () => { clearUserMessage(); }, 3000); 
+        }
     } else {
         messageContainer.innerHTML = "";
     }

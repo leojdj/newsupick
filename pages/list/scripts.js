@@ -40,7 +40,7 @@ function displayNewsList() {
     let listContainer = document.getElementById("dailynews-page-container");
 
     if (newsArray.length == 0) {
-        userMessage("No Data", "Save your favourite News to list them here");
+        userMessage("No Saved News", "Save Your Favourite News to List Them Here", false);
         return
     }
 
