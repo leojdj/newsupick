@@ -21,17 +21,17 @@ export default class News {
         this.title = title? title: this.NO_DATA;
         this.sourceName = sourceName? sourceName: this.UNKNOWN;
         this.author = author? author: this.UNKNOWN;
-        this.publishedAt = publishedAt? this.fetchDateParse(publishedAt, "t"): this.UNKNOWN;
-        this.content = content? content: this.NO_DATA;
+        this.publishedAt = publishedAt? this.dateParse(publishedAt, "t"): this.UNKNOWN;
+        this.content = content? this.contentParse(content): this.NO_DATA;
         this.favourite = false;
         this.id = 0;
-        this.fetchDate = this.fetchDateParse(new Date().toISOString())
+        this.fetchDate = this.dateParse(new Date().toISOString())
     }
 
     // Removes the .999 milliseconds of a Date/Time or the Time from a Date
     // filterType = ms, default, remove the milliseconds.
     // date = date/time to parse.
-    fetchDateParse(date, filterType = "ms") {
+    dateParse(date, filterType = "ms") {
         // Date is already in needed format.
         if (date.length == 10) {
             return date;
@@ -47,6 +47,19 @@ export default class News {
 
         date = date.substring(0, date.indexOf(filterChar)) + tailText;    
         return date;
+    }
+
+    // Parse content field for character count.
+    contentParse(rawString) {
+        let indexEnd = rawString.indexOf("[");
+
+        if (indexEnd == -1) {
+            return rawString;
+        }
+
+        let parsedString = rawString.substring(0, indexEnd - 2) + " [ ... ]";
+        
+        return parsedString;
     }
 
     getReleaseDate() {

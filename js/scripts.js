@@ -110,9 +110,9 @@ function initDisplay() {
     } else {
         News.displayNewsEmpty();
         NewsPaging.displayPageNumbersEmpty();
+               
+        userMessage("For More News", "Click the FETCH Button", false);
         toggleNewsNavButtons();
-       
-        userMessage("For More News", "Click the FETCH Button");
     }
 }
 
