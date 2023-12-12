@@ -1,0 +1,48 @@
+
+/*
+    Course:     INFO6134 (Capstone Project)
+    Term:       F23
+    Professor:  Murilo Trigo
+    Author:     Leonardo Antezana
+    Notes:      This application uses some of the code and patterns learned in different classes.
+*/
+
+.aboutpage-row-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid black;
+}
+
+.aboutpage-row-wrapper .aboutpage-title-wrapper {
+    margin: 10px 7px 10px;
+}
+
+.aboutpage-row-wrapper .aboutpage-title-wrapper p {
+    text-transform: uppercase;    
+}
+
+.aboutpage-row-wrapper .aboutpage-text-cell {
+    padding-left: 7px;
+}
+
+/* STYLES for the Menu Button Icons */
+.aboutpage-title-wrapper .menu-option-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+    padding: 5px 0;
+    text-align: center;  
+    text-decoration: none;
+    width: 70px;
+    border: 1px solid black;
+    border-radius: 7px;
+    background-color: var(--secondary-colour);
+}
+  
+.aboutpage-title-wrapper .menu-option-wrapper .menu-option-text {
+    margin-top: 7px;
+    font-size: small;
+    text-transform: uppercase;
+}

@@ -76,10 +76,8 @@ header {
 #menu-container .menu-option-wrapper a {
     display: flex;
     flex-direction: column;
-    margin: 5px;
-    padding: 5px;
-    text-align: center;
-  
+    margin: 5px 0;
+    text-align: center;  
     text-decoration: none;
     color: var(--white);
 }
@@ -218,6 +216,10 @@ main #dailynews-page-container {
     border: 1px solid black;    
   
     text-align: center;
+}
+
+#section-title-wrapper .section-title {
+    font-size: 1.5rem;
 }
 
 /* OFFLINE MESSAGE */

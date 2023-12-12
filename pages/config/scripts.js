@@ -30,7 +30,7 @@ function displayClearListButton() {
     //Internal element:button
     let button = document.createElement('button');
     button.className = "aboutpage-deletedb-button";
-    button.innerHTML = "Empty the News Database";
+    button.innerHTML = "Empty the News List";
     button.addEventListener('click', deleteNewsDataPressed);
 
     //Add element into internal:container:div
@@ -45,7 +45,7 @@ function displayClearListButton() {
     
     //Internal element:Text
     let text = document.createElement('p');
-    text.innerText = "Clicking on this button will delete all the stored data in the local News Database.";
+    text.innerText = "Clicking on this button will delete all the saved News.";
 
     //Add element into internal:container:div
     div.append(text);
@@ -71,5 +71,5 @@ function deleteNewsDataPressed() {
             .catch( (e) => {
                 console.log("[DB]: Issue opening the local database.", e)
             })
-    userMessage("News Deleted", "Data Has Been Cleared. Database is Empty");
+    userMessage("News Deleted", "Data Has Been Cleared. List is Empty");
 }
