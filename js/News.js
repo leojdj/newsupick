@@ -109,8 +109,9 @@ export default class News {
     }    
 
     // Directly displays the data into the received DIV element.
-    displayNews() {     
-        var newsContainer = document.getElementById("dailynews-page-container");
+    displayNews(useModal = false) {     
+        let containerName = useModal ? "dailynews-page-usemodal" : "dailynews-page-container"
+        var newsContainer = document.getElementById(containerName);
 
         var htmlText = `
             <div class="dailynews-page-image-container"><img src="${this.urlToImage}" alt="${this.sourceName}"></div>
@@ -133,9 +134,10 @@ export default class News {
     }
 
     // Returns a structured block to append to a list of news.
-    displayNewsItem() {
+    displayNewsItem(onClickItem) {
         let newDiv = document.createElement("div");
         newDiv.className = "news-item-container";
+        newDiv.addEventListener("click", onClickItem);
 
         let htmlText = `
             <div class="news-item-object">

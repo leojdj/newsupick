@@ -50,3 +50,45 @@ main .news-item-container .news-item-object .news-item-label .news-item-date {
 main .news-item-container .news-item-icon {
     color: var(--page-favourite);
 }
+
+/* STYLING FOR MODAL ELEMENTS */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    margin: auto;
+    top: 0;
+    bottom: 0;    
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 100;
+}
+
+.modal-content {
+    margin: auto;
+    margin-top: 43px;
+    padding: 20px;
+    border: 1px solid var(--black);
+    width: 80%;
+    background-color: var(--white);
+    border-radius: 15px;
+    z-index: 200;
+}
+
+.modal-button-container {
+    padding: 9px 0;
+}
+
+.modal-button-close {
+    padding: 5px;
+    background-color: var(--secondary-colour);
+    border-radius: 7px;
+}
+
+main .news-item-container:hover {
+    background-color: var(--white);
+}

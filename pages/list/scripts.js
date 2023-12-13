@@ -45,6 +45,45 @@ function displayNewsList() {
     }
 
     for (let article of newsArray) {
-        listContainer.append(article.displayNewsItem());
+        listContainer.append(article.displayNewsItem( () => { onClickItem(article) }));        
     }
+
+    createModal()
+}
+
+
+// Modal Functionality (Ideas: W3School, FreeCodeCamp)
+function onClickItem(news) {
+    let modalContainer = document.getElementById("modal-overlay")
+    modalContainer.style.display = "block"
+
+    news.displayNews(true)
+}
+
+function closeModal() {
+    let modalContainer = document.getElementById("modal-overlay")
+    modalContainer.style.display = "none"
+}
+
+function createModal() {
+    let outermostContainer = document.getElementById("dailynews-page-container")
+
+    let modalContainer = document.createElement('div')
+
+    modalContainer.innerHTML = `
+        <div id="modal-overlay" class="modal-overlay">
+            <div class="modal-content">
+                <div id="dailynews-page-usemodal">
+                </div>
+                <div class="modal-button-container">
+                    <button id="modal-button" class="modal-button-close">Close</button>
+                </div>
+            </div>
+        </div>        
+    `;
+
+    outermostContainer.append(modalContainer)
+
+    let closeModalButton = document.getElementById("modal-button")
+    closeModalButton.addEventListener("click", closeModal)
 }
