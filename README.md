@@ -22,7 +22,8 @@ At the same time, it maintains the look and feel that most mobile applications o
     - As a user I want to be able to delete a saved news
 - As a user I want to have access to an About page to know how the App works
 - As a user I want to reset and empty the app's database of saved news
-- As a user I want to be able to customize the search terms for my news
+- As a user I want to be able to customize the search terms for my news [CANCELED]
+- As a user I want to be able to view all the details of a saved News [ADDED]
 
 ## API
 The API to be used to fetch the news is provided by NEWSAPI(.org). Below a template of what will be used.
