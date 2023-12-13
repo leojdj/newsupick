@@ -61,15 +61,15 @@ function descriptionDiv(tabName, textString) {
     listContainer.append(divWrapper);    
 }
 
-descriptionDiv("", "NewsUPick is an App that allows the user to fetch news from Newsapi(org) and save those that are of interest, to read at a later time.");
+descriptionDiv("", "NewsUPick is an App that allows the user to fetch news and save those that are of interest, to read at a later time.");
 
 descriptionDiv("", "This App was created as part of the Capstone Project class for the Mobile Application Development Program at Fanshawe College (London, Ontario, Canada). Fall 2023.");
 
 descriptionDiv("", "Version 1.0. December 2023.");
 
-descriptionDiv("Home", "Displays a News browser where a limited number (5) of them is displayed for viewing. The Arrow-Buttons allow to navigate the News details. The Save button stores a News for later viewing. The Fetch button gets a new group of News.");
+descriptionDiv("Home", "Presents a News browser where a limited number (5) of them is displayed for viewing. The Arrow-Buttons allow to navigate the News details. The Save button stores a News for later viewing. The Fetch button gets a new group of News.");
 
-descriptionDiv("List", "Displays the saved News for viewing. The Trash Can icon in each row allows to delete the News from the list (Warning: this operation cannot be undone).");
+descriptionDiv("List", "Displays the saved News for viewing. The trashcan icon in each row allows to delete the News from the list (Warning: this operation cannot be undone). Clicking on a News item opens a detailed view of it with additional data.");
 
 descriptionDiv("About", "Displays this page.");
 
