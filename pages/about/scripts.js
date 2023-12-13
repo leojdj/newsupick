@@ -7,6 +7,7 @@
     Notes:      This application uses some of the code and patterns learned in different classes.
 */
 
+// Returns the icon name of a given Tab from the navigation menu. To use in the menu descriptions.
 function iconName(tabName) {
     switch(tabName) {
         case "Home": return "home";
@@ -16,6 +17,7 @@ function iconName(tabName) {
     }
 }
 
+// Generic function to create a text block for the menu descriptions.
 function descriptionDiv(tabName, textString) {
     let listContainer = document.getElementById("dailynews-page-container");
 
@@ -61,6 +63,7 @@ function descriptionDiv(tabName, textString) {
     listContainer.append(divWrapper);    
 }
 
+// Menu descriptions.
 descriptionDiv("", "NewsUPick is an App that allows the user to fetch news and save those that are of interest, to read at a later time.");
 
 descriptionDiv("", "This App was created as part of the Capstone Project class for the Mobile Application Development Program at Fanshawe College (London, Ontario, Canada). Fall 2023.");
