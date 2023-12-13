@@ -109,6 +109,7 @@ export default class News {
     }    
 
     // Directly displays the data into the received DIV element.
+    // Parameter helps determine if to find a normal (or modal) container as the target of the detailed view.
     displayNews(useModal = false) {     
         let containerName = useModal ? "dailynews-page-usemodal" : "dailynews-page-container"
         var newsContainer = document.getElementById(containerName);
@@ -134,6 +135,7 @@ export default class News {
     }
 
     // Returns a structured block to append to a list of news.
+    // Parameter is a callback fn to handle the Item-click, opens the modal with a detailed view of the News. 
     displayNewsItem(onClickItem) {
         let newDiv = document.createElement("div");
         newDiv.className = "news-item-container";

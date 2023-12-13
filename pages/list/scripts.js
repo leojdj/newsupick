@@ -51,7 +51,6 @@ function displayNewsList() {
     createModal()
 }
 
-
 // Modal Functionality (Ideas: W3School, FreeCodeCamp)
 function onClickItem(news) {
     let modalContainer = document.getElementById("modal-overlay")
