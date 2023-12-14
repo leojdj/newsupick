@@ -21,7 +21,7 @@ At the same time, it maintains the look and feel that most mobile applications o
     - As a user I want to be able to list my saved favourite news
     - As a user I want to be able to delete a saved news
 - As a user I want to have access to an About page to know how the App works
-- As a user I want to reset and empty the app's database of saved news
+- As a user I want to be able to clear the list of saved news quickly
 - As a user I want to be able to customize the search terms for my news [CANCELED]
 - As a user I want to be able to view all the details of a saved News [ADDED]
 
