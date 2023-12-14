@@ -111,7 +111,7 @@ function initDisplay() {
         News.displayNewsEmpty();
         NewsPaging.displayPageNumbersEmpty();
                
-        userMessage("For More News", "Click the FETCH Button", false);
+        userMessage("For More News", "Click the FETCH Button");
         toggleNewsNavButtons();
     }
 }

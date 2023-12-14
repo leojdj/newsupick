@@ -139,24 +139,30 @@ export default class News {
     displayNewsItem(onClickItem) {
         let newDiv = document.createElement("div");
         newDiv.className = "news-item-container";
-        newDiv.addEventListener("click", onClickItem);
 
-        let htmlText = `
-            <div class="news-item-object">
-                <div class="news-item-title text-overflow"><h3>${this.title}</h3></div>
-                <div class="news-item-label-container">                                
-                    <div class="news-item-label">Source: 
-                        <span>${this.sourceName}</span>
-                    </div>
-                    <div class="news-item-label">Author: 
-                        <span>${this.author}</span>
-                    </div>                                
-                    <div class="news-item-label">|
-                        <span class="news-item-date">${this.getDate()}</span>
-                    </div>
+        // Fix for "clicking on trashcan displays the modal".
+        let newsObject = document.createElement("div");
+        newsObject.className = "news-item-object"
+        newsObject.addEventListener("click", onClickItem);
+
+        let htmlText = `            
+            <div class="news-item-title text-overflow"><h3>${this.title}</h3></div>
+            <div class="news-item-label-container">                                
+                <div class="news-item-label">Source: 
+                    <span>${this.sourceName}</span>
                 </div>
-            </div>
+                <div class="news-item-label">Author: 
+                    <span>${this.author}</span>
+                </div>                                
+                <div class="news-item-label">|
+                    <span class="news-item-date">${this.getDate()}</span>
+                </div>
+            </div>            
         `;
+
+        // Fix for "clicking on trashcan displays the modal".
+        newsObject.innerHTML = htmlText;
+        newDiv.append(newsObject);        
 
         // Create the DIV with the icon and the function callback to delete the corresponding News item by its id.
         let deleteDiv = document.createElement('div')
@@ -164,7 +170,6 @@ export default class News {
         deleteDiv.onclick = () => { DeleteListItem.deleteItem(this.id) }
         deleteDiv.innerHTML = '<span class="material-symbols-outlined">delete</span>'    
 
-        newDiv.innerHTML = htmlText;
         newDiv.append(deleteDiv);
         return (newDiv);        
     }    
